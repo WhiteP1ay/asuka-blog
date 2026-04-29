@@ -1,7 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   return (
     <nav className="navbar">
@@ -11,9 +13,29 @@ export default function Navbar() {
       </Link>
       <div className="navbar-links">
         <Link to="/">文章</Link>
-        <button className="btn btn-primary btn-sm" onClick={() => navigate('/new')}>
-          ✏️ 写点什么
-        </button>
+        {user ? (
+          <>
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => navigate('/new')}
+            >
+              ✏️ 写点什么
+            </button>
+            <button
+              className="btn btn-outline btn-sm"
+              onClick={logout}
+            >
+              退出
+            </button>
+          </>
+        ) : (
+          <button
+            className="btn btn-outline btn-sm"
+            onClick={() => navigate('/login')}
+          >
+            登录
+          </button>
+        )}
       </div>
     </nav>
   );

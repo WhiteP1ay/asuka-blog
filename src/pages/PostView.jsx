@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
 import { api } from '../api/client';
+import { useAuth } from '../context/AuthContext';
 
 // Configure marked
 marked.setOptions({
@@ -18,6 +19,7 @@ marked.setOptions({
 export default function PostView() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showDelete, setShowDelete] = useState(false);
@@ -65,6 +67,7 @@ export default function PostView() {
                   })
                 : ''}
             </span>
+            {user && (
             <div className="post-view-actions">
               <Link to={`/edit/${post.id}`} className="btn btn-outline btn-sm">
                 ✏️ 编辑
@@ -76,6 +79,7 @@ export default function PostView() {
                 🗑️ 删除
               </button>
             </div>
+            )}
           </div>
         </div>
         <div

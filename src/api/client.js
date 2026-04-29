@@ -38,6 +38,20 @@ async function mutation(path, options) {
 }
 
 export const api = {
+  // Auth — cookie session
+  login(username, password) {
+    return request('/login', {
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+    });
+  },
+  logout() {
+    return request('/logout', { method: 'POST' });
+  },
+  checkAuth() {
+    return request('/auth/me');
+  },
+
   // Posts — read (no auth required)
   getPosts() {
     return request('/posts');
