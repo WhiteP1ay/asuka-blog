@@ -27,7 +27,7 @@ function RequireAuth({ children }) {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter basename="/blog">
+    <BrowserRouter basename="/rei">
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />
