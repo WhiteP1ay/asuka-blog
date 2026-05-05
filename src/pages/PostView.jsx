@@ -59,8 +59,8 @@ export default function PostView() {
           <h1 className="post-view-title">{post.title}</h1>
           <div className="post-view-meta">
             <span>
-              {post.created_at
-                ? new Date(post.created_at).toLocaleDateString('zh-CN', {
+              {post.createdAt
+                ? new Date(post.createdAt).toLocaleDateString('zh-CN', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric',

@@ -1,9 +1,5 @@
 const API_BASE = "/api";
 
-// // Node IDs for backend folder routing
-// const POSTS_NODE = 10;
-// const UPLOAD_NODE = 11;
-
 /// Core fetch wrapper — cookie session auth via credentials: 'include'
 async function request(path, options = {}) {
   const url = `${API_BASE}${path}`;
@@ -53,24 +49,27 @@ export const api = {
   },
 
   // Posts — read (no auth required)
-  getPosts() {
-    return request("/posts");
+  async getPosts() {
+    const res = await request("/posts");
+    return res.data; // unwrap {data: [...]} envelope
   },
-  getPost(id) {
-    return request(`/posts/${id}`);
+  async getPost(id) {
+    const res = await request(`/posts/${id}`);
+    return res.data; // unwrap {data: {...}} envelope
   },
 
   // Posts — write (admin session required)
-  createPost({ title, content }) {
-    return mutation("/posts", {
+  async createPost({ title, content }) {
+    const res = await mutation("/posts", {
       method: "POST",
-      body: JSON.stringify({ title, content }),
+      body: JSON.stringify({ title, content, type: "rei" }),
     });
+    return res.data; // unwrap {data: {id, title, ...}} envelope
   },
   updatePost(id, { title, content }) {
     return mutation(`/posts/${id}`, {
       method: "PUT",
-      body: JSON.stringify({ title, content }),
+      body: JSON.stringify({ title, content, type: "rei" }),
     });
   },
   deletePost(id) {
@@ -83,7 +82,6 @@ export const api = {
   uploadImage(file) {
     const form = new FormData();
     form.append("file", file);
-    // form.append('nodeId', String(UPLOAD_NODE));
     return request("/upload", {
       method: "POST",
       body: form,

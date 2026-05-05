@@ -49,13 +49,13 @@ export default function Home() {
               className="post-card"
               style={{ display: 'block' }}
             >
-              {post.cover_url && (
-                <img src={post.cover_url} alt="" className="post-card-thumb" />
+              {post.coverUrl && (
+                <img src={post.coverUrl} alt="" className="post-card-thumb" />
               )}
               <div className="post-card-header">
                 <h2 className="post-card-title">{post.title}</h2>
                 <span className="post-card-date">
-                  {post.created_at ? new Date(post.created_at).toLocaleDateString('zh-CN', {
+                  {post.createdAt ? new Date(post.createdAt).toLocaleDateString('zh-CN', {
                     month: 'short',
                     day: 'numeric',
                   }) : ''}
