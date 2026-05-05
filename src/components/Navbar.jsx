@@ -26,6 +26,7 @@ export default function Navbar() {
 
       <div className={`navbar-links ${menuOpen ? 'open' : ''}`}>
         <Link to="/" onClick={closeMenu}>文章</Link>
+        <Link to="/album" onClick={closeMenu}>相册</Link>
         {user ? (
           <>
             <button

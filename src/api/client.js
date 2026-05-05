@@ -1,4 +1,5 @@
 const API_BASE = "/api";
+const TYPE = "rei";
 
 /// Core fetch wrapper — cookie session auth via credentials: 'include'
 async function request(path, options = {}) {
@@ -50,11 +51,11 @@ export const api = {
 
   // Posts — read (no auth required)
   async getPosts() {
-    const res = await request("/posts");
+    const res = await request(`/posts?type=${TYPE}`);
     return res.data; // unwrap {data: [...]} envelope
   },
   async getPost(id) {
-    const res = await request(`/posts/${id}`);
+    const res = await request(`/posts/${id}?type=${TYPE}`);
     return res.data; // unwrap {data: {...}} envelope
   },
 
@@ -78,13 +79,77 @@ export const api = {
     });
   },
 
-  // Image upload
-  uploadImage(file) {
-    const form = new FormData();
-    form.append("file", file);
-    return request("/upload", {
+  // Photos — album (public read, admin write)
+  /**
+   * 获取相册列表
+   * @param {{ includeHidden?: boolean }} [options]
+   * @returns {Promise<Array>}
+   */
+  async getPhotos(options = {}) {
+    const { includeHidden = false } = options;
+    const query = includeHidden ? "?includeHidden=true" : "";
+    const res = await request(`/photos${query}?type=${TYPE}`);
+    return res.data;
+  },
+
+  /**
+   * 获取单个 photo 详情
+   * @param {number|string} id
+   * @returns {Promise<Object>}
+   */
+  async getPhoto(id) {
+    const res = await request(`/photos/${id}`);
+    return res.data;
+  },
+
+  /**
+   * 创建 photo（JSON 方式）
+   * @param {{ title?: string; description?: string; coverUrl?: string; type?: string; isHidden?: boolean }} payload
+   * @returns {Promise<Object>}
+   */
+  async createPhotoJson(payload) {
+    const res = await mutation("/photos", {
       method: "POST",
-      body: form,
+      body: JSON.stringify(payload),
+    });
+    return res.data;
+  },
+
+  /**
+   * 创建 photo（FormData：拖拽上传）
+   * @param {FormData} formData
+   * @returns {Promise<Object>}
+   */
+  async createPhotoForm(formData) {
+    const res = await mutation("/photos", {
+      method: "POST",
+      body: formData,
+    });
+    return res.data;
+  },
+
+  /**
+   * 更新 photo（至少一个字段）
+   * @param {number|string} id
+   * @param {{ title?: string; description?: string; coverUrl?: string; type?: string; isHidden?: boolean }} payload
+   * @returns {Promise<Object>}
+   */
+  async updatePhoto(id, payload) {
+    const res = await mutation(`/photos/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    });
+    return res.data;
+  },
+
+  /**
+   * 删除 photo
+   * @param {number|string} id
+   * @returns {Promise<{success: boolean}>}
+   */
+  deletePhoto(id) {
+    return mutation(`/photos/${id}`, {
+      method: "DELETE",
     });
   },
 };

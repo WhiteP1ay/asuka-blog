@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import PostView from './pages/PostView';
 import PostEdit from './pages/PostEdit';
 import Login from './pages/Login';
+import Album from './pages/Album';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './index.css';
 
@@ -33,6 +34,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route index element={<Home />} />
           <Route path="post/:id" element={<PostView />} />
           <Route path="login" element={<Login />} />
+          <Route path="album" element={<Album />} />
           <Route
             path="new"
             element={
