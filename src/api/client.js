@@ -1,5 +1,5 @@
 const API_BASE = "/api";
-const TYPE = "rei";
+const TYPE = "asuka";
 
 /// Core fetch wrapper — cookie session auth via credentials: 'include'
 async function request(path, options = {}) {
@@ -63,14 +63,14 @@ export const api = {
   async createPost({ title, content }) {
     const res = await mutation("/posts", {
       method: "POST",
-      body: JSON.stringify({ title, content, type: "rei" }),
+      body: JSON.stringify({ title, content, type: TYPE }),
     });
     return res.data; // unwrap {data: {id, title, ...}} envelope
   },
   updatePost(id, { title, content }) {
     return mutation(`/posts/${id}`, {
       method: "PUT",
-      body: JSON.stringify({ title, content, type: "rei" }),
+      body: JSON.stringify({ title, content, type: TYPE }),
     });
   },
   deletePost(id) {
