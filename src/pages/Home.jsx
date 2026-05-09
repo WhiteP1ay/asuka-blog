@@ -9,7 +9,10 @@ export default function Home() {
 
   useEffect(() => {
     api.getPosts()
-      .then(data => setPosts(data))
+      .then(data => {
+        const sorted = [...data].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setPosts(sorted);
+      })
       .catch(err => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
@@ -54,12 +57,6 @@ export default function Home() {
               )}
               <div className="post-card-header">
                 <h2 className="post-card-title">{post.title}</h2>
-                <span className="post-card-date">
-                  {post.createdAt ? new Date(post.createdAt).toLocaleDateString('zh-CN', {
-                    month: 'short',
-                    day: 'numeric',
-                  }) : ''}
-                </span>
               </div>
               {post.excerpt && (
                 <p className="post-card-excerpt">{post.excerpt}</p>

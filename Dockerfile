@@ -8,7 +8,7 @@ RUN npm run build
 
 # 生产阶段：nginx 提供静态文件
 FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html/rei
+COPY --from=builder /app/dist /usr/share/nginx/html/asuka
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
