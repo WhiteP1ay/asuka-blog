@@ -12,7 +12,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <Link to="/" className="navbar-brand" onClick={closeMenu}>
-        <span className="emoji">🌸</span>
+        <span className="emoji">🔥</span>
         <span>asuka</span>
       </Link>
 
